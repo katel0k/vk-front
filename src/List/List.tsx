@@ -2,7 +2,7 @@ import { ReactNode } from 'react'
 
 import './List.module.css'
 
-type ListElement = {
+export type ListElement = {
     name: string,
     url: string,
     owner: {
@@ -15,7 +15,7 @@ interface ListProps {
     body: ListElement[]
 }
 
-export default function List({ body }: ListProps): ReactNode {
+export function List({ body = [] }: ListProps): ReactNode {
     return (
         <div styleName='body'>
             {

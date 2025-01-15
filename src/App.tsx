@@ -1,17 +1,16 @@
-import { ReactNode } from "react";
-import List from "./List/List";
+import { ReactNode, useState, useEffect } from "react";
+import { List, ListElement } from "./List/List";
 
 export default function App(): ReactNode {
+    const [ list, setList ] = useState<ListElement[]>([]);
+    useEffect(() => {
+        fetch("https://api.github.com/search/repositories?q=javascript&sort=stars&order=asc&page=1")
+        .then(response => response.json())
+        .then(json => setList(json.items))
+    }, []);
     return (
         <div className="wrapper">
-            <List body={[{
-                name: '',
-                url: '',
-                owner: {
-                    login: '',
-                    avatar_url: ''
-                }
-            }]} />
+            <List body={list} />
         </div>
     )
 }
