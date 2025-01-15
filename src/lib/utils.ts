@@ -1,7 +1,7 @@
 import { ListSettings } from "../Settings/Settings"
 
 export function constructAPIURL(settings: ListSettings, page: number): URL {
-    let url = new URL("https://api.github.com/search/respositories");
+    let url = new URL("https://api.github.com/search/repositories");
     url.searchParams.append('q', 'javascript');
     url.searchParams.append('sort', 'stars');
     url.searchParams.append("order", settings.sortOrder)
