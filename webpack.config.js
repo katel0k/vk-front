@@ -4,6 +4,7 @@ const path = require("path");
 module.exports = {
     entry: "./src/index.tsx",
     mode: "development",
+    devtool: false,
     output: {
         filename: "main.js",
         path: path.resolve(__dirname, "dist"),
@@ -15,7 +16,7 @@ module.exports = {
     ],
     resolve: {
         modules: [__dirname, "src", "node_modules"],
-        extensions: [".*", ".js", ".jsx", ".tsx", ".ts"],
+        extensions: [".*", ".js", ".ts", ".jsx", ".tsx", ".css", ".module.css"],
     },
     module: {
         rules: [
@@ -27,7 +28,15 @@ module.exports = {
             {
                 test: /\.css$/,
                 exclude: /node_modules/,
-                use: ["style-loader", "css-loader"]
+                use: [
+                    "@teamsupercell/typings-for-css-modules-loader",
+                    {
+                        loader: "css-loader",
+                        options: {
+                            modules: true
+                        }
+                    }
+                ]
             },
             {
                 test: /\.(png|svg|jpg|gif)$/,

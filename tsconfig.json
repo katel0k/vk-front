@@ -35,6 +35,9 @@
         // Interop Constraints Configuration
         "esModuleInterop": true,
         "isolatedModules": true,
+        "plugins": [{
+            "name": "typescript-plugin-css-modules"
+        }]
     },
     "include": [
         "src/**/*"
