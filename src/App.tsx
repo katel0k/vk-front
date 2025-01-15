@@ -1,6 +1,7 @@
 import { ReactNode, useState, useEffect } from "react";
 import { List, ListElement } from "./List/List";
 import { ListSettings, Settings } from "./Settings/Settings";
+import { constructAPIURL } from "./lib/utils";
 
 export default function App(): ReactNode {
     const [ list, setList ] = useState<ListElement[]>([]);
@@ -8,7 +9,7 @@ export default function App(): ReactNode {
         sortOrder: 'asc'
     });
     useEffect(() => {
-        fetch("https://api.github.com/search/repositories?q=javascript&sort=stars&order=asc&page=1")
+        fetch(constructAPIURL(settings, 1))
         .then(response => response.json())
         .then(json => setList(json.items))
     }, []);
