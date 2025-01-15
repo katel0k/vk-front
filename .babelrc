@@ -8,5 +8,10 @@
             }
         ],
         "@babel/preset-typescript"
+    ],
+    "plugins": [
+        [
+            "react-css-modules"
+        ]
     ]
 }

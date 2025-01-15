@@ -1,6 +1,6 @@
 import { ReactNode } from 'react'
 
-import styles from './List.module.css'
+import './List.module.css'
 
 type ListElement = {
     name: string,
@@ -17,11 +17,12 @@ interface ListProps {
 
 export default function List({ body }: ListProps): ReactNode {
     return (
-        <div className={ styles.body }>
+        <div styleName='body'>
             {
                 body.map((a: ListElement, i: number) =>
-                    <div className={ styles.element }>
-
+                    <div styleName='element' key={i}>
+                        <span>{a.name}</span>
+                        <a href={a.url}></a>
                     </div>
                 )
             }
