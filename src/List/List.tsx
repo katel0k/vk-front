@@ -32,10 +32,10 @@ export function List({ elements = [], isLoading, requestNewData }: ListProps): R
             }} >
             {elements.map(({id, url, name, owner: {login, avatarUrl, url: ownerUrl}}: ListElement) =>
                 <div styleName="element" key={id}>
-                    <a href={url}>{name}</a>
-                    <a href={ownerUrl}>
-                        <img src={avatarUrl} alt={login} />
+                    <a href={url}><span>{name}</span></a>
+                    <a styleName="ownerUrl" href={ownerUrl}>
                         <span>{login}</span>
+                        <img styleName="ownerImg" src={avatarUrl} alt={login} />
                     </a>
                 </div>
             )}
