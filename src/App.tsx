@@ -1,13 +1,15 @@
 import { ReactNode, useState, useEffect, useCallback } from "react";
 import { List, ListElement } from "./List/List";
-import { ListSettings, Settings } from "./Settings/Settings";
+import { ListSettings, Settings, sortOrderSetting, sortTypeSetting } from "./Settings/Settings";
 import { constructAPIURL } from "./lib/utils";
 import "./App.module.css"
 
 export default function App(): ReactNode {
     const [ list, setList ] = useState<ListElement[]>([]);
     const [ settings, setSettings ] = useState<ListSettings>({
-        sortOrder: 'desc'
+        sortOrder: sortOrderSetting.DESC,
+        sortType: sortTypeSetting.STARS,
+        query: "vk"
     });
     const [ page, setPage ] = useState<number>(1);
     const [ apiError, setApiError ] = useState<Error | null>(null);
@@ -47,7 +49,7 @@ export default function App(): ReactNode {
     return (
         <div className="wrapper">
             { apiError && <div styleName="error">{ apiError.name }</div> }
-            <Settings oldSettings={settings} handleChange={setSettings}/>
+            <Settings settings={settings} handleChange={setSettings}/>
             <div styleName="listWrapper">
                 <List elements={list} requestNewData={requestNewData} isLoading={isLoading} />
             </div>
