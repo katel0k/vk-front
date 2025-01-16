@@ -23,12 +23,14 @@ export default function App(): ReactNode {
     return (
         <div className="wrapper">
             <Settings oldSettings={settings} handleChange={setSettings}/>
-            <List body={list} requestNewData={() => {
-                if (!isLoading) {
-                    setIsLoading(true);
-                    setPage(page + 1);
-                }
-            }} isLoading={isLoading} />
+            <div styleName="listWrapper">
+                <List body={list} requestNewData={() => {
+                    if (!isLoading) {
+                        setIsLoading(true);
+                        setPage(page + 1);
+                    }
+                }} isLoading={isLoading} />
+            </div>
         </div>
     )
 }

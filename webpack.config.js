@@ -29,13 +29,17 @@ module.exports = {
                 test: /\.css$/,
                 exclude: /node_modules/,
                 use: [
+                    "style-loader",
                     "@teamsupercell/typings-for-css-modules-loader",
                     {
                         loader: "css-loader",
                         options: {
-                            modules: true
+                            importLoaders: 1,
+                            modules: {
+                                localIdentName: '[path]__[name]__[local]__[hash:base64:5]'
+                            }
                         }
-                    }
+                    },
                 ]
             },
             {

@@ -7,3 +7,7 @@
 .element {
     display: flex;
 }
+
+.dataLoading {
+    padding: 20px;
+}
