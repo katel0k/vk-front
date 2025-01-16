@@ -1,39 +1,45 @@
-import { ReactNode } from 'react'
+import { ReactNode } from "react"
 
-import './List.module.css'
+import "./List.module.css"
 
 export type ListElement = {
+    id: number,
     name: string,
     url: string,
     owner: {
         login: string,
-        avatar_url: string,
+        avatarUrl: string,
+        url: string
     }
 }
 
 const REQUEST_FOR_NEW_DATA_THRESHOLD: number = 500;
 
 interface ListProps {
-    body: ListElement[],
+    elements: ListElement[],
     isLoading: boolean,
     requestNewData: () => void
 }
 
-export function List({ body = [], isLoading, requestNewData }: ListProps): ReactNode {
+export function List({ elements = [], isLoading, requestNewData }: ListProps): ReactNode {
     return (
-        <div styleName='body'
+        <div styleName="body"
             onScroll={e => {
-                if (e.currentTarget.getBoundingClientRect().bottom + 100 > REQUEST_FOR_NEW_DATA_THRESHOLD) {
+                let t = e.currentTarget;
+                if (t.scrollHeight - (t.scrollTop + t.clientHeight) < REQUEST_FOR_NEW_DATA_THRESHOLD) {
                     requestNewData();
                 }
             }} >
-            {body.map((a: ListElement, i: number) =>
-                <div styleName='element' key={i}>
-                    <span>{a.name}</span>
-                    <a href={a.url}></a>
+            {elements.map(({id, url, name, owner: {login, avatarUrl, url: ownerUrl}}: ListElement) =>
+                <div styleName="element" key={id}>
+                    <a href={url}>{name}</a>
+                    <a href={ownerUrl}>
+                        <img src={avatarUrl} alt={login} />
+                        <span>{login}</span>
+                    </a>
                 </div>
             )}
-            {isLoading && (<div styleName='dataLoading'> Data is loading</div>)}
+            {isLoading && (<div styleName="dataLoading"> Data is loading</div>)}
         </div>
     )
 }
