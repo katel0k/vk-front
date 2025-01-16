@@ -1,4 +1,4 @@
-import { ReactNode, useState, useEffect } from "react";
+import { ReactNode, useState, useEffect, useCallback } from "react";
 import { List, ListElement } from "./List/List";
 import { ListSettings, Settings } from "./Settings/Settings";
 import { constructAPIURL } from "./lib/utils";
@@ -33,21 +33,23 @@ export default function App(): ReactNode {
                 });
             setList((prev: ListElement[]) => prev.concat(nextPageItems));
             setIsLoading(false);
+            setApiError(null);
         })();
         return () => controller.abort("Use effect fetch was cancelled");
     }, [ page ]);
     const [ isLoading, setIsLoading ] = useState<boolean>(true);
+    const requestNewData: (() => void) = useCallback(() => {
+        if (!isLoading) {
+            setIsLoading(true);
+            setPage(page + 1);
+        }
+    }, [ isLoading, page ]);
     return (
         <div className="wrapper">
             { apiError && <div styleName="error">{ apiError.name }</div> }
             <Settings oldSettings={settings} handleChange={setSettings}/>
             <div styleName="listWrapper">
-                <List elements={list} requestNewData={() => {
-                    if (!isLoading) {
-                        setIsLoading(true);
-                        setPage(page + 1);
-                    }
-                }} isLoading={isLoading} />
+                <List elements={list} requestNewData={requestNewData} isLoading={isLoading} />
             </div>
         </div>
     )
