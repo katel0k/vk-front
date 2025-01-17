@@ -36,16 +36,21 @@ export default function App(): ReactNode {
         <div className="wrapper">
             { apiError && <div styleName="error">{ apiError.name }</div> }
             <div styleName="settingsWrapper">
-                <Settings settings={settings} handleChange={(newAPISettings: APISettings) => {
-                    setSettings(newAPISettings);
-                    setData([]);
-                    setPage(1);
-                    setIsLoading(true);
-                    setApiError(null);
-                }}/>
+                <Settings 
+                    settings={settings}
+                    handleChange={(newAPISettings: APISettings) => {
+                        setSettings(newAPISettings);
+                        setData([]);
+                        setPage(1);
+                        setIsLoading(true);
+                        setApiError(null);
+                    }} />
             </div>
             <div styleName="listWrapper">
-                <InfiniteList elements={data} requestNewData={requestNewData} isLoading={isLoading} />
+                <InfiniteList
+                    elements={data}
+                    requestNewData={requestNewData}
+                    isLoading={isLoading} />
             </div>
         </div>
     )

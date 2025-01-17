@@ -10,7 +10,7 @@ interface InfiniteListProps {
     requestNewData: () => void
 }
 
-export default function ({ elements = [], isLoading, requestNewData }: InfiniteListProps): ReactNode {
+export default function ({ elements = [], isLoading, requestNewData, ...props }: InfiniteListProps): ReactNode {
     return (
         <div styleName="body"
             onScroll={e => {
@@ -18,7 +18,7 @@ export default function ({ elements = [], isLoading, requestNewData }: InfiniteL
                 if (t.scrollHeight - (t.scrollTop + t.clientHeight) < REQUEST_FOR_NEW_DATA_THRESHOLD) {
                     requestNewData();
                 }
-            }} >
+            }} {...props} >
             {elements.map(({id, url, name, owner: {login, avatarUrl, url: ownerUrl}}: RepoEntry) =>
                 <div styleName="element" key={id}>
                     <a href={url}><span>{name}</span></a>

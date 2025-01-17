@@ -9,12 +9,12 @@ interface settingsProps {
 }
 
 export default function Settings({ settings: { sortType: oldSortType, sortOrder: oldSortOrder, query: oldQuery }, 
-                           handleChange }: settingsProps): ReactNode {
+                           handleChange, ...props }: settingsProps): ReactNode {
     const [sortType, setSortType] = useState<sortTypeSetting>(oldSortType);
     const [sortOrder, setSortOrder] = useState<sortOrderSetting>(oldSortOrder);
     const [query, setQuery] = useState<string>(oldQuery);
     return (
-        <div styleName="settings">
+        <div styleName="settings" {...props}>
             <input name="query" type="text" value={query} onChange={e => setQuery(e.target.value)}/>
             <select name="sortType" value={sortType}
                     onChange={e => setSortType(e.target.value as sortTypeSetting)}>
