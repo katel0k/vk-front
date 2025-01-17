@@ -19,9 +19,16 @@ export default function ({ elements = [], isLoading, requestNewData, ...props }:
                     requestNewData();
                 }
             }} {...props} >
-            {elements.map(({id, url, name, owner: {login, avatarUrl, url: ownerUrl}}: RepoEntry) =>
+            {elements.map(({id, url, name, stars, forks, issues, updated, 
+                            owner: {login, avatarUrl, url: ownerUrl}}: RepoEntry) =>
                 <div styleName="element" key={id}>
                     <a href={url}><span>{name}</span></a>
+                    <div styleName="stats">
+                        <span>Stars: {stars}</span>
+                        <span>Forks: {forks}</span>
+                        <span>Issues: {issues}</span>
+                        <span styleName="lastUpdated">Last updated: {updated.toString()}</span>
+                    </div>
                     <a styleName="ownerUrl" href={ownerUrl}>
                         <span styleName="ownerLogin">{login}</span>
                         <img styleName="ownerImg" src={avatarUrl} alt={login} />

@@ -6,8 +6,8 @@
 }
 
 .element {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     align-items: center;
     padding: 1em;
     background-color: hsl(0, 0%, 97%);
@@ -28,6 +28,7 @@ a {
 .ownerUrl {
     display: flex;
     align-items: center;
+    justify-self: end;
 }
 
 .ownerLogin {
@@ -36,4 +37,15 @@ a {
 
 .ownerImg {
     max-height: 3em;
+}
+
+.stats {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: baseline;
+}
+
+.lastUpdated {
+    font-size: 0.8em;
 }

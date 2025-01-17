@@ -2,6 +2,10 @@ export type RepoEntry = {
     id: number,
     name: string,
     url: string,
+    stars: number,
+    forks: number,
+    issues: number,
+    updated: Date,
     owner: {
         login: string,
         avatarUrl: string,
@@ -41,6 +45,10 @@ export function parseJSON(json: any): RepoEntry[] {
         id: repo.id,
         name: repo.name,
         url: repo.html_url,
+        stars: repo.stargazers_count,
+        forks: repo.forks_count,
+        issues: repo.open_issues_count,
+        updated: new Date(repo.updated_at),
         owner: {
             login: repo.owner.login,
             avatarUrl: repo.owner.avatar_url,
