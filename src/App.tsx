@@ -1,12 +1,12 @@
 import { ReactNode, useState, useEffect, useCallback } from "react";
-import { List, ListElement } from "./components/InfiniteList";
-import { ListSettings, Settings, sortOrderSetting, sortTypeSetting } from "./components/Settings";
-import { constructAPIURL } from "./lib/utils";
+import InfiniteList from "./components/InfiniteList";
+import Settings from "./components/Settings";
+import { requestData, RepoEntry, sortOrderSetting, sortTypeSetting, APISettings } from "./lib/api";
 import "./App.module.css"
 
 export default function App(): ReactNode {
-    const [ list, setList ] = useState<ListElement[]>([]);
-    const [ settings, setSettings ] = useState<ListSettings>({
+    const [ data, setData ] = useState<RepoEntry[]>([]);
+    const [ settings, setSettings ] = useState<APISettings>({
         sortOrder: sortOrderSetting.DESC,
         sortType: sortTypeSetting.STARS,
         query: "vk"
@@ -16,29 +16,15 @@ export default function App(): ReactNode {
     useEffect(() => {
         let controller = new AbortController();
         let signal = controller.signal;
-        (async () => {
-            let nextPageItems: ListElement[] = await fetch(constructAPIURL(settings, page), { signal })
-                .then((response: Response) => response.json())
-                .then((parsed: any): ListElement[] => parsed.items.map((repo: any) => ({
-                    id: repo.id,
-                    name: repo.name,
-                    url: repo.html_url,
-                    owner: {
-                        login: repo.owner.login,
-                        avatarUrl: repo.owner.avatar_url,
-                        url: repo.owner.html_url
-                    }
-                } as ListElement)))
-                .catch((e: Error) => {
-                    setApiError(e);
-                    return [];
-                });
-            setList((l: ListElement[]) => l.concat(nextPageItems));
-            setIsLoading(false);
-            setApiError(null);
-        })();
+        requestData(settings, page, signal)
+            .then((newData: RepoEntry[]) => {
+                setData((l: RepoEntry[]) => l.concat(newData));
+                setIsLoading(false);
+                setApiError(null);
+            })
+            .catch(setApiError);
         return () => controller.abort("Use effect fetch was cancelled");
-    }, [ page ]);
+    }, [ page, settings ]);
     const [ isLoading, setIsLoading ] = useState<boolean>(true);
     const requestNewData: (() => void) = useCallback(() => {
         if (!isLoading) {
@@ -50,16 +36,16 @@ export default function App(): ReactNode {
         <div className="wrapper">
             { apiError && <div styleName="error">{ apiError.name }</div> }
             <div styleName="settingsWrapper">
-                <Settings settings={settings} handleChange={(newListSettings: ListSettings) => {
-                    setSettings(newListSettings);
-                    setList([]);
+                <Settings settings={settings} handleChange={(newAPISettings: APISettings) => {
+                    setSettings(newAPISettings);
+                    setData([]);
                     setPage(1);
                     setIsLoading(true);
                     setApiError(null);
                 }}/>
             </div>
             <div styleName="listWrapper">
-                <List elements={list} requestNewData={requestNewData} isLoading={isLoading} />
+                <InfiniteList elements={data} requestNewData={requestNewData} isLoading={isLoading} />
             </div>
         </div>
     )

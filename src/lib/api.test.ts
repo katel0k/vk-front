@@ -1,5 +1,4 @@
-import { constructAPIURL } from "./utils";
-import { sortOrderSetting, sortTypeSetting } from "../components/Settings";
+import { constructAPIURL, sortOrderSetting, sortTypeSetting } from "./api";
 
 test('Basic url construction', () => {
     expect(constructAPIURL({

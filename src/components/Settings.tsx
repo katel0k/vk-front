@@ -1,30 +1,14 @@
 import { ReactNode, useState } from "react";
 import "./Settings.module.css"
 
-export enum sortTypeSetting {
-    STARS = "stars",
-    FORKS = "forks",
-    ISSUES = "help-wanted-issues",
-    UPDATED = "updated"
-}
-
-export enum sortOrderSetting {
-    ASC = "asc",
-    DESC = "desc"
-}
-
-export type ListSettings = {
-    sortType: sortTypeSetting,
-    sortOrder: sortOrderSetting,
-    query: string,
-}
+import { sortTypeSetting, sortOrderSetting, APISettings } from "src/lib/api"
 
 interface settingsProps {
-    settings: ListSettings,
-    handleChange: (newListSettings: ListSettings) => void
+    settings: APISettings,
+    handleChange: (newAPISettings: APISettings) => void
 }
 
-export function Settings({ settings: { sortType: oldSortType, sortOrder: oldSortOrder, query: oldQuery }, 
+export default function Settings({ settings: { sortType: oldSortType, sortOrder: oldSortOrder, query: oldQuery }, 
                            handleChange }: settingsProps): ReactNode {
     const [sortType, setSortType] = useState<sortTypeSetting>(oldSortType);
     const [sortOrder, setSortOrder] = useState<sortOrderSetting>(oldSortOrder);
@@ -47,7 +31,7 @@ export function Settings({ settings: { sortType: oldSortType, sortOrder: oldSort
             <input type="submit" name="submit" onClick={_ => 
                 handleChange({
                     sortOrder, query
-                } as ListSettings)
+                } as APISettings)
             } value="Search" />
         </div>
     )

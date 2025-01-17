@@ -1,27 +1,16 @@
 import { ReactNode } from "react"
-
-import "./List.module.css"
-
-export type ListElement = {
-    id: number,
-    name: string,
-    url: string,
-    owner: {
-        login: string,
-        avatarUrl: string,
-        url: string
-    }
-}
+import { RepoEntry } from "src/lib/api";
+import "./InfiniteList.module.css"
 
 const REQUEST_FOR_NEW_DATA_THRESHOLD: number = 1000;
 
-interface ListProps {
-    elements: ListElement[],
+interface InfiniteListProps {
+    elements: RepoEntry[],
     isLoading: boolean,
     requestNewData: () => void
 }
 
-export function List({ elements = [], isLoading, requestNewData }: ListProps): ReactNode {
+export default function ({ elements = [], isLoading, requestNewData }: InfiniteListProps): ReactNode {
     return (
         <div styleName="body"
             onScroll={e => {
@@ -30,7 +19,7 @@ export function List({ elements = [], isLoading, requestNewData }: ListProps): R
                     requestNewData();
                 }
             }} >
-            {elements.map(({id, url, name, owner: {login, avatarUrl, url: ownerUrl}}: ListElement) =>
+            {elements.map(({id, url, name, owner: {login, avatarUrl, url: ownerUrl}}: RepoEntry) =>
                 <div styleName="element" key={id}>
                     <a href={url}><span>{name}</span></a>
                     <a styleName="ownerUrl" href={ownerUrl}>
