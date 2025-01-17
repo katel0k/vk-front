@@ -1,41 +1,31 @@
-import { ReactNode } from "react"
-import { RepoEntry } from "src/lib/api";
+import { DOMAttributes, PropsWithChildren, ReactNode } from "react"
 import "./InfiniteList.module.css"
 
-const REQUEST_FOR_NEW_DATA_THRESHOLD: number = 1000;
+const DEFAULT_REQUEST_FOR_NEW_DATA_THRESHOLD: number = 1000;
 
-interface InfiniteListProps {
-    elements: RepoEntry[],
-    isLoading: boolean,
-    requestNewData: () => void
+interface InfiniteListProps extends PropsWithChildren {
+    readonly threshold?: number,
+    readonly isLoading: boolean,
+    readonly requestNewData: () => void
 }
 
-export default function ({ elements = [], isLoading, requestNewData, ...props }: InfiniteListProps): ReactNode {
+export default function ({
+        threshold = DEFAULT_REQUEST_FOR_NEW_DATA_THRESHOLD,
+        isLoading,
+        requestNewData,
+        children,
+        ...props }: InfiniteListProps): ReactNode {
+    let handleScroll: Exclude<DOMAttributes<HTMLDivElement>["onScroll"], undefined> = e => {
+        if (isLoading) return;
+        let t = e.currentTarget;
+        if (t.scrollHeight - (t.scrollTop + t.clientHeight) < threshold) {
+            requestNewData();
+        }
+    }
     return (
-        <div styleName="body"
-            onScroll={e => {
-                let t = e.currentTarget;
-                if (t.scrollHeight - (t.scrollTop + t.clientHeight) < REQUEST_FOR_NEW_DATA_THRESHOLD) {
-                    requestNewData();
-                }
-            }} {...props} >
-            {elements.map(({id, url, name, stars, forks, issues, updated, 
-                            owner: {login, avatarUrl, url: ownerUrl}}: RepoEntry) =>
-                <div styleName="element" key={id}>
-                    <a href={url}><span>{name}</span></a>
-                    <div styleName="stats">
-                        <span>Stars: {stars}</span>
-                        <span>Forks: {forks}</span>
-                        <span>Issues: {issues}</span>
-                        <span styleName="lastUpdated">Last updated: {updated.toString()}</span>
-                    </div>
-                    <a styleName="ownerUrl" href={ownerUrl}>
-                        <span styleName="ownerLogin">{login}</span>
-                        <img styleName="ownerImg" src={avatarUrl} alt={login} />
-                    </a>
-                </div>
-            )}
-            {isLoading && (<div styleName="dataLoading"> Data is loading</div>)}
+        <div styleName="body" onScroll={handleScroll} {...props} >
+            { children }
+            { isLoading && (<div styleName="dataLoading"> Data is loading</div>) }
         </div>
     )
 }

@@ -1,10 +1,9 @@
-export type RepoEntry = {
+export type repoEntry = {
     id: number,
     name: string,
     url: string,
     stars: number,
     forks: number,
-    issues: number,
     updated: Date,
     owner: {
         login: string,
@@ -16,7 +15,6 @@ export type RepoEntry = {
 export enum sortTypeSetting {
     STARS = "stars",
     FORKS = "forks",
-    ISSUES = "help-wanted-issues",
     UPDATED = "updated"
 }
 
@@ -40,24 +38,23 @@ export function constructAPIURL(settings: APISettings, page: number): URL {
     return url;
 }
 
-export function parseJSON(json: any): RepoEntry[] {
+export function parseJSON(json: any): repoEntry[] {
     return json.items.map((repo: any) => ({
         id: repo.id,
         name: repo.name,
         url: repo.html_url,
         stars: repo.stargazers_count,
         forks: repo.forks_count,
-        issues: repo.open_issues_count,
         updated: new Date(repo.updated_at),
         owner: {
             login: repo.owner.login,
             avatarUrl: repo.owner.avatar_url,
             url: repo.owner.html_url
         }
-    } as RepoEntry));
+    } as repoEntry));
 }
 
-export async function requestData(settings: APISettings, page: number, signal: AbortSignal): Promise<RepoEntry[]> {
+export async function requestData(settings: APISettings, page: number, signal: AbortSignal): Promise<repoEntry[]> {
     return fetch(constructAPIURL(settings, page), { signal })
         .then((response: Response) => response.json())
         .then(parseJSON)

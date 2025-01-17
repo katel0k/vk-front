@@ -1,11 +1,12 @@
 import { ReactNode, useState, useEffect, useCallback } from "react";
 import InfiniteList from "./components/InfiniteList";
 import Settings from "./components/Settings";
-import { requestData, RepoEntry, sortOrderSetting, sortTypeSetting, APISettings } from "./lib/api";
+import RepoListElement from "./components/RepoListElement";
+import { requestData, repoEntry, sortOrderSetting, sortTypeSetting, APISettings } from "./lib/api";
 import "./App.module.css"
 
 export default function App(): ReactNode {
-    const [ data, setData ] = useState<RepoEntry[]>([]);
+    const [ data, setData ] = useState<repoEntry[]>([]);
     const [ settings, setSettings ] = useState<APISettings>({
         sortOrder: sortOrderSetting.DESC,
         sortType: sortTypeSetting.STARS,
@@ -17,8 +18,8 @@ export default function App(): ReactNode {
         let controller = new AbortController();
         let signal = controller.signal;
         requestData(settings, page, signal)
-            .then((newData: RepoEntry[]) => {
-                setData((l: RepoEntry[]) => l.concat(newData));
+            .then((newData: repoEntry[]) => {
+                setData((l: repoEntry[]) => l.concat(newData));
                 setIsLoading(false);
                 setApiError(null);
             })
@@ -47,10 +48,9 @@ export default function App(): ReactNode {
                     }} />
             </div>
             <div styleName="listWrapper">
-                <InfiniteList
-                    elements={data}
-                    requestNewData={requestNewData}
-                    isLoading={isLoading} />
+                <InfiniteList requestNewData={requestNewData} isLoading={isLoading} >
+                    { data.map((a: repoEntry) => <RepoListElement entry={a} key={a.id} />) }
+                </InfiniteList >
             </div>
         </div>
     )

@@ -4,8 +4,8 @@ import "./Settings.module.css"
 import { sortTypeSetting, sortOrderSetting, APISettings } from "src/lib/api"
 
 interface settingsProps {
-    settings: APISettings,
-    handleChange: (newAPISettings: APISettings) => void
+    readonly settings: APISettings,
+    readonly handleChange: (newAPISettings: APISettings) => void
 }
 
 export default function Settings({ settings: { sortType: oldSortType, sortOrder: oldSortOrder, query: oldQuery }, 
@@ -20,7 +20,6 @@ export default function Settings({ settings: { sortType: oldSortType, sortOrder:
                     onChange={e => setSortType(e.target.value as sortTypeSetting)}>
                 <option value={sortTypeSetting.STARS}>{sortTypeSetting.STARS}</option>
                 <option value={sortTypeSetting.FORKS}>{sortTypeSetting.FORKS}</option>
-                <option value={sortTypeSetting.ISSUES}>{sortTypeSetting.ISSUES}</option>
                 <option value={sortTypeSetting.UPDATED}>{sortTypeSetting.UPDATED}</option>
             </select>
             <select name="sortOrder" value={sortOrder}
@@ -30,7 +29,7 @@ export default function Settings({ settings: { sortType: oldSortType, sortOrder:
             </select>
             <input type="submit" name="submit" onClick={_ => 
                 handleChange({
-                    sortOrder, query
+                    sortType, sortOrder, query
                 } as APISettings)
             } value="Search" />
         </div>
