@@ -1,6 +1,6 @@
 import { ReactNode, useState, useEffect, useCallback } from "react";
-import { List, ListElement } from "./List/List";
-import { ListSettings, Settings, sortOrderSetting, sortTypeSetting } from "./Settings/Settings";
+import { List, ListElement } from "./components/InfiniteList";
+import { ListSettings, Settings, sortOrderSetting, sortTypeSetting } from "./components/Settings";
 import { constructAPIURL } from "./lib/utils";
 import "./App.module.css"
 

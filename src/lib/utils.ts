@@ -1,4 +1,4 @@
-import { ListSettings } from "../Settings/Settings"
+import { ListSettings } from "../components/Settings"
 
 export function constructAPIURL(settings: ListSettings, page: number): URL {
     let url = new URL("https://api.github.com/search/repositories");
