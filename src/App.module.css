@@ -1,15 +1,11 @@
-.listWrapper {
-    padding: 0 20%;
-}
-
-.settingsWrapper {
-    padding: 0 20%;
-}
-
 .error {
     color: red;
 }
 
 body {
     margin: 0;
+}
+
+.app {
+    padding: 0 20%;
 }

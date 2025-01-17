@@ -33,25 +33,20 @@ export default function App(): ReactNode {
             setPage(page + 1);
         }
     }, [ isLoading, page ]);
+    const handleNewSettings: (newAPISettings: APISettings) => void = useCallback(newAPISettings => {
+        setSettings(newAPISettings);
+        setData([]);
+        setPage(1);
+        setIsLoading(true);
+        setApiError(null);
+    }, []);
     return (
-        <div className="wrapper">
+        <div styleName="app">
             { apiError && <div styleName="error">{ apiError.name }</div> }
-            <div styleName="settingsWrapper">
-                <Settings 
-                    settings={settings}
-                    handleChange={(newAPISettings: APISettings) => {
-                        setSettings(newAPISettings);
-                        setData([]);
-                        setPage(1);
-                        setIsLoading(true);
-                        setApiError(null);
-                    }} />
-            </div>
-            <div styleName="listWrapper">
-                <InfiniteList requestNewData={requestNewData} isLoading={isLoading} >
-                    { data.map((a: repoEntry) => <RepoListElement entry={a} key={a.id} />) }
-                </InfiniteList >
-            </div>
+            <Settings settings={settings} handleSubmit={handleNewSettings} />
+            <InfiniteList requestNewData={requestNewData} isLoading={isLoading} >
+                { data.map((a: repoEntry) => <RepoListElement entry={a} key={a.id} />) }
+            </InfiniteList >
         </div>
     )
 }
