@@ -13,7 +13,7 @@ export type ListElement = {
     }
 }
 
-const REQUEST_FOR_NEW_DATA_THRESHOLD: number = 500;
+const REQUEST_FOR_NEW_DATA_THRESHOLD: number = 1000;
 
 interface ListProps {
     elements: ListElement[],
@@ -34,7 +34,7 @@ export function List({ elements = [], isLoading, requestNewData }: ListProps): R
                 <div styleName="element" key={id}>
                     <a href={url}><span>{name}</span></a>
                     <a styleName="ownerUrl" href={ownerUrl}>
-                        <span>{login}</span>
+                        <span styleName="ownerLogin">{login}</span>
                         <img styleName="ownerImg" src={avatarUrl} alt={login} />
                     </a>
                 </div>

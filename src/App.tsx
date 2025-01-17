@@ -33,7 +33,7 @@ export default function App(): ReactNode {
                     setApiError(e);
                     return [];
                 });
-            setList((prev: ListElement[]) => prev.concat(nextPageItems));
+            setList((l: ListElement[]) => l.concat(nextPageItems));
             setIsLoading(false);
             setApiError(null);
         })();
@@ -49,7 +49,15 @@ export default function App(): ReactNode {
     return (
         <div className="wrapper">
             { apiError && <div styleName="error">{ apiError.name }</div> }
-            <Settings settings={settings} handleChange={setSettings}/>
+            <div styleName="settingsWrapper">
+                <Settings settings={settings} handleChange={(newListSettings: ListSettings) => {
+                    setSettings(newListSettings);
+                    setList([]);
+                    setPage(1);
+                    setIsLoading(true);
+                    setApiError(null);
+                }}/>
+            </div>
             <div styleName="listWrapper">
                 <List elements={list} requestNewData={requestNewData} isLoading={isLoading} />
             </div>

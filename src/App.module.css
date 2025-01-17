@@ -2,6 +2,10 @@
     padding: 0 20%;
 }
 
+.settingsWrapper {
+    padding: 0 20%;
+}
+
 .error {
     color: red;
 }

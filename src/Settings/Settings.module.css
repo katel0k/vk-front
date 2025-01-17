@@ -1,3 +1,7 @@
 .settings {
     display: flex;
+    padding: 1em;
+    justify-content: space-around;
+    align-items: center;
+    font-size: 20px;
 }

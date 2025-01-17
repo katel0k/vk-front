@@ -30,6 +30,10 @@ a {
     align-items: center;
 }
 
+.ownerLogin {
+    margin-right: 1em;
+}
+
 .ownerImg {
     max-height: 3em;
 }
