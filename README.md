@@ -22,3 +22,7 @@ npm run test
 ## Comments
 
 API used is github repository search api. Without authorisation it has limited uses per hour - 60.
+
+## Second task
+
+EventEmitter is located in src/lib/ with its tests. Tests can be run with `npx jest`
