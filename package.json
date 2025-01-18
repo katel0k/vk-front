@@ -15,7 +15,8 @@
   "type": "commonjs",
   "main": "src/index.tsx",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "build": "webpack"
   },
   "devDependencies": {
     "@babel/core": "^7.26.0",
